@@ -1,0 +1,139 @@
+<div class="container mt-2">
+
+  <div class="row">
+    <div class="col-md-6">
+      <ng-container *ngIf="owners | async as listowners; else failOrLoading">
+
+
+        <div class="card">
+          <div class="card-header">Clients</div> <!-- header -->
+
+          <div class="card-body"> <!-- body -->
+            <div *ngIf="searchOwnersFormGroup">
+              <form [formGroup]="searchOwnersFormGroup" (ngSubmit)="handleSearch()">
+                <div class="input-group">
+                  <label class="input-group-text">Keyword</label>
+                  <input type="text" formControlName="keyword" class="form-control">
+                  <button class="btn btn-info">
+                    <i class="bi bi-search">
+
+                    </i>
+                  </button>
+                </div>
+              </form>
+            </div>
+
+
+
+            <table class="table"> <!-- table -->
+              <thead>
+              <tr>
+                <th>ID</th> <th>Name</th> <th>Capital</th><th>delete</th><th>update</th><th>view biens</th>
+              </tr>
+              </thead>
+
+              <tbody>
+              <tr *ngFor="let o of listowners">
+                <td>{{o.id}}</td>
+                <td>{{o.name}}</td>
+                <td>{{o.capital}}</td>
+
+                <td>
+                  <button class="btn btn-danger" (click)="handleDeleteOwner(o)">
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </td>
+                <td>
+                  <button class="btn btn-info" routerLink="/update-owner/{{o.id}}">
+                    <i class="bi bi-pen"></i>
+                  </button>
+                </td>
+                <td>
+                  <button class="btn btn-info" (click)="initBiens(o.id)">
+                    <i class="bi bi-view-list"></i>
+                  </button>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+
+          </div>
+        </div>
+
+      </ng-container>
+
+      <ng-template #failOrLoading>
+
+        <ng-container *ngIf="errorMessage; else loading">
+          <div class="text-danger">
+            {{errorMessage}}
+          </div>
+        </ng-container>
+
+        <ng-template #loading>
+          loading...
+        </ng-template>
+      </ng-template>
+    </div>
+
+    <div class="col-md-6">
+      <ng-container *ngIf="biens | async as listbiens; else failOrLoadingBiens">
+        <div class="card">
+          <div class="card-header">Biens
+          <button class="btn btn-info" routerLink="/crate-bien/{{ownerId}}">
+            <i class="bi bi-plus-square">
+            </i>
+          </button>
+          </div> <!-- header -->
+
+          <div class="card-body"> <!-- body -->
+            <table class="table"> <!-- table -->
+              <thead>
+              <tr>
+                <th>ID</th> <th>Name</th> <th>description</th><th>Price/month</th><th>delete</th><th>edit</th>
+              </tr>
+              </thead>
+
+              <tbody>
+              <tr *ngFor="let bien of listbiens">
+                <td>{{bien.id}}</td>
+                <td>{{bien.nom}}</td>
+                <td>{{bien.description}}</td>
+                <td>{{bien.prixPerMonth}}</td>
+                <td>
+                  <button class="btn btn-danger" (click)="handledeleteBien(bien)">
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </td>
+                <td>
+                  <button class="btn btn-info" routerLink="/update-bien/{{ownerId}}/{{bien.id}}">
+                    <i class="bi bi-pen"></i>
+                  </button>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+
+          </div>
+        </div>
+
+      </ng-container>
+
+      <ng-template #failOrLoadingBiens>
+
+        <ng-container *ngIf="errorMessage; else loadingBiens">
+          <div class="text-danger">
+            {{errorMessageBiens}}
+          </div>
+        </ng-container>
+
+        <ng-template #loadingBiens>
+          loading biens...
+        </ng-template>
+      </ng-template>
+    </div>
+
+  </div>
+
+
+</div>

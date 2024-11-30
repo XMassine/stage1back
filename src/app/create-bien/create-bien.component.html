@@ -1,0 +1,39 @@
+<div class="container">
+  <div class="card col-md-6 offset-3 mt-2">
+    <div class="card-header">New Bien to owner </div>
+    <div class="card-body">
+      <form [formGroup]="newBienFormgroup" (ngSubmit)="handleSaveBien()">
+        <div class="mb-3">
+          <label class="form-label">Name:</label>
+          <input type="text" formControlName="nom" class="form-control">
+          <span class="text-danger"
+                *ngIf="newBienFormgroup.controls['nom'].touched &&
+                newBienFormgroup.controls['nom'].errors &&
+                 newBienFormgroup.controls['nom'].errors!['required']">
+            Name is Required
+          </span>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">description:</label>
+          <input type="text" formControlName="description" class="form-control">
+          <span class="text-danger"
+                *ngIf="newBienFormgroup.controls['description'].touched &&
+                newBienFormgroup.controls['description'].errors &&
+                 newBienFormgroup.controls['description'].errors!['required']">
+            description is Required
+          </span>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Price per month:</label>
+          <input type="text" formControlName="prixPerMonth" class="form-control">
+        </div>
+        <div class="mb-3">
+          <button [disabled]="!newBienFormgroup.valid"  class="btn btn-info">
+            <i class="bi bi-save">
+            </i>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
